@@ -1,10 +1,10 @@
-const anagram_controller = require('../controller/anagram.controller');
+const index_algo_controller = require('../controller/index_algo.controller');
 const router = require('express').Router();
 const base_response = require('./base_response');
 
 module.exports = router.post('', async (req, res) => {
     try {
-        let data = await anagram_controller(req.body);
+        let data = await index_algo_controller(req.body);
         base_response.send_response(res, data);
 
     } catch (error) {
