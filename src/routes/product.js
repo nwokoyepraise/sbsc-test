@@ -46,3 +46,13 @@ module.exports.view = router.get('', async (req, res) => {
         console.error(error);
     }
 });
+
+module.exports.create_random = router.post('/auto_gen', async (req, res) => {
+    try {
+        let data = await product_controller.create_random(req.body);
+        base_response.send_response(res, data);
+
+    } catch (error) {
+        console.error(error);
+    }
+});

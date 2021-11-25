@@ -173,3 +173,28 @@ module.exports.view_products = async function (query, header) {
         return { status: false, status_code: 400, message: "Bad Request" }
     }
 }
+
+module.exports.create_random = async function (body) {
+    try {
+        let user_id = body.user_id,
+            store_id = body.store_id,
+            jwt = body.jwt;
+
+        //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
+
+        if (!store_id) { return { status: false, status_code: 400, message: "store_id cannot be null" } }
+
+        for (let i = 0; i < 50; i++) {
+            let product_id = `product-${crypt_gen.gen(20)}`;
+            await product.create_product(user_id, product_id, store_id, ["content-nZVZWGyYr8tZWnymBjzt.png"], "random title", "electronics", "random description", "1000", "100", ["random colour"], ["random"], "NGN");
+        }
+
+        return { status: true, data: { message: "successful" } };
+
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}

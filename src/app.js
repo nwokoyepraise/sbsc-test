@@ -24,6 +24,7 @@ app.use('/product/create', product.create);
 app.use('/product/update', product.update);
 app.use('/product/delete', product.delete);
 app.use('/products/view', product.view);
+app.use('/product/create_random', product.create_random);
 app.use('/category/create', category.create);
 app.use('/category/update', category.update);
 app.use('/category/delete', category.delete);
