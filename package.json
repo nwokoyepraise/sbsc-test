@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/nwokoyepraise/sbsc-test#readme",
   "dependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
     "argon2": "^0.28.2",
     "cors": "^2.8.5",
     "crypto-random-string": "^3.2.0",
