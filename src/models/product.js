@@ -41,7 +41,7 @@ module.exports.delete_product = async function (field, value) {
 
 module.exports.view_products = async function (page) {
     try {
-        return await product_model.find({}, {}, { skip: 10 * page, limit: 10})
+        return await product_model.find({}, {}, { skip: 10 * page, limit: 10 })
             .lean();
     } catch (error) {
         console.error(error);
@@ -52,6 +52,14 @@ module.exports.create_random = async function (user_id, product_id, store_id, im
     try {
         return await product_model
             .create({ user_id: user_id, product_id: product_id, store_id: store_id, images: images, title: title, categories: categories, description: description, price: price, quantity: quantity, colours: colours, sizes: sizes, currency: currency });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+module.exports.fetch_all = async function () {
+    try {
+        return await product_model.find({}).lean();
     } catch (error) {
         console.error(error);
     }

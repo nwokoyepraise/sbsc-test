@@ -3,6 +3,7 @@ const check_for_null = require('../utils/null_undefined_checker');
 const fs = require('fs/promises');
 const product = require('../models/product');
 const crypt_gen = require('../utils/crypt_gen');
+const { AsyncParser } = require('json2csv');
 
 function delete_files(files) {
     files.forEach(async (element) => {
@@ -193,6 +194,53 @@ module.exports.create_random = async function (body) {
 
         return { status: true, data: { message: "successful" } };
 
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}
+
+module.exports.export_csv = async function (query, header) {
+    try {
+        let user_id = query.user_id,
+            jwt = token_handle.get_auth(header);
+
+        //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
+
+        const transformOpts = { highWaterMark: 8192 };
+
+        //fetch all products
+        let data = await product.fetch_all();
+
+        //set fields
+        let fields = ["user_id", 'product_id', 'store_id', "images", "title", "currency", "categories", "description", "price", "quantity", "colours", "sizes"];
+        let opts = { fields };
+
+        const asyncParser = new AsyncParser(opts, transformOpts);
+
+        let csv = '';
+        return new Promise(function (resolve, reject) {
+            asyncParser.processor
+                .on('data', chunk => (csv += chunk.toString()))
+                .on('end', async function () {
+                    await fs.writeFile('output/all_product.csv', csv);
+                    resolve(true);
+                })
+                .on('error', function (err) {
+                    console.error(err);
+                    reject(false)
+                });
+
+            asyncParser.transform
+                .on('error', err => console.log(err));
+
+            data.forEach(function (chunk) {
+               asyncParser.input.push(JSON.stringify(chunk));
+            });
+            asyncParser.input.push(null); // Sending `null` to a stream signal that no more data is expected and ends it.
+        });
     } catch (error) {
         console.error(error);
         return { status: false, status_code: 400, message: "Bad Request" }

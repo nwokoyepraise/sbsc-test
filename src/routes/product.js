@@ -3,6 +3,7 @@ const base_response = require('./base_response');
 const router = require('express').Router();
 const multer_helper = require('../utils/multer_helper');
 const uploads = multer_helper.multi_upload();
+const path = require('path');
 
 
 module.exports.create = router.post('', uploads.array('product_images', 4), async (req, res) => {
@@ -52,6 +53,17 @@ module.exports.create_random = router.post('/auto_gen', async (req, res) => {
         let data = await product_controller.create_random(req.body);
         base_response.send_response(res, data);
 
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+module.exports.export_csv = router.get('/download', async (req, res) => {
+    try {
+        let data = await product_controller.export_csv(req.query, req.header('Authorization'));
+        if (data) {
+            res.sendFile(path.join(__dirname, "../output/all_product.csv"))
+        }
     } catch (error) {
         console.error(error);
     }
