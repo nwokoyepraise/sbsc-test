@@ -19,3 +19,12 @@ module.exports.get_profile_data = async function (field, value) {
         console.log(error);
     }
 }
+
+module.exports.update_profile_data = async function (field, field_data, key, value) {
+    try {
+        return await user_model.updateOne({[key]: value}, {[field]: field_data}, {runValidators: true});
+    } catch (error) {
+        console.log(error);
+
+    }
+}
