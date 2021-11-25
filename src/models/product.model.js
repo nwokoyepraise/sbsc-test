@@ -1,53 +1,70 @@
 const mongoose = require('mongoose');
+const mongo_conn = require('../config/mongo_config');
+const schema = mongoose.Schema;
 
-const product = new mongoose.Schema({
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
+const product = new schema({
+    user_id: {
+        type: String,
+        required: true,
         ref: "User",
     },
-    store: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Store",
+    product_id: {
+        type: String,
+        required: true,
+        ref: "Product",
     },
-    cover_image: {
-        type: Object,
-        default: {}
+    store_id: {
+        type: String,
+        required: true,
+        ref: "Store",
     },
     images: {
         type: [Object],
+        required: true,
         default: []
     },
     title: {
         type: String,
+        required: true,
         default: ""
+    },
+    currency: {
+        type: String,
+        required: true
     },
     categories: {
         type: [String],
+        required: true,
         default: []
     },
     description: {
         type: String,
+        required: true,
         default: ""
     },
     price: {
         type: Number,
+        required: true,
         default: 0
     },
     quantity: {
         type: Number,
+        required: true,
         default: 0
     },
     colours: {
         type: [String],
+        required: true,
         default: []
     },
     sizes: {
         type: [String],
+        required: true,
         default: []
-    },
-    
+    }
+
 }, {
     timestamps: true,
 });
 
-module.exports = mongoose.model("product", product, product);
+module.exports = mongo_conn.model("product", product, "product");

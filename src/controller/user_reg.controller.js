@@ -1,4 +1,4 @@
-const user_profile_model = require('../models/user_profile.model');
+const user_profile = require('../models/user_profile');
 const token_handle = require('../utils/token_handle');
 const crypt_gen = require('../utils/crypt_gen');
 const user = require('../models/user');
@@ -22,14 +22,14 @@ module.exports = async (body) => {
         if (Object.keys(rjwt).length === 0) { return { status: false, status_code: 500, message: "Unexpected error, please try again" } }
 
         //check and return if user already exists in db
-        let res0 = await user_profile_model.get_profile_data('email',  email); 
+        let res0 = await user_profile.get_profile_data('email',  email); 
         
         if (res0 || res0?.email) { return { status: false, status_code: 406, message: "User already exists" } }
 
         password = await token_handle.hash_password(password);
 
         //create user
-        let res1 = await user_profile_model.create_user(user_id, email, password, rjwt.hash);
+        let res1 = await user_profile.create_user(user_id, email, password, rjwt.hash);
 
         if (!res1 || !res1.user_id) {return { status: false, status_code: 500, message: "Unable to create user at this point, please try again later" }}
 

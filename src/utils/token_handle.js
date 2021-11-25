@@ -35,13 +35,13 @@ module.exports.chk_jwt = async function (user_id, jwt) {
         if (res0.user_id == user_id) {
             return { status: true }
         } else {
-            return { status: false, message: 'JWT and user_id mismatch' }
+            return { status: false, status_code: 401, message: 'JWT and user_id mismatch' }
         }
 
     } catch (error) {
         console.error(error);
         if (error.name == 'TokenExpiredError') {
-            return { status: false, message: 'TokenExpiredError' }
+            return { status: false, status_code: 406, message: 'TokenExpiredError' }
         }
         return { status: false, message: 'Not Allowed' }
     }
