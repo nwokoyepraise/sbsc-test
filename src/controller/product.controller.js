@@ -46,8 +46,8 @@ module.exports.create_product = async function (body, files) {
             return { status: false, status_code: 400, message: `'${valid[1]}' field cannot be null!` }
         }
 
-        let auth = await token_handle.chk_jwt(user_id, jwt);
         //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
         if (!auth.status) { delete_files(files); return auth }
 
         let images = get_file_names(files)
@@ -93,10 +93,9 @@ module.exports.update_product = async function (body) {
             return { status: false, status_code: 400, message: `'${valid[1]}' field cannot be null!` }
         }
 
-        let auth = await token_handle.chk_jwt(user_id, jwt);
-
         //check jwt
         if (!auth.status) { return auth }
+        let auth = await token_handle.chk_jwt(user_id, jwt);
 
         let res0 = await product.get_product_details('product_id', product_id);
 
@@ -127,9 +126,8 @@ module.exports.delete_product = async function (body) {
             product_id = body.product_id,
             jwt = body.jwt;
 
-        let auth = await token_handle.chk_jwt(user_id, jwt);
-
         //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
         if (!auth.status) { return auth }
 
         if (!product_id) { return { status: false, status_code: 400, message: "product_id cannot be null" } }
@@ -150,6 +148,26 @@ module.exports.delete_product = async function (body) {
         if (res1 && res1.deletedCount == 1) {
             return { status: true, data: "Product deleted successfully" };
         } else { return { status: false, status_code: 500, message: "Unable to delete product, please try again later!" } }
+
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}
+
+module.exports.view_products = async function (query, header) {
+    try {
+        let user_id = query.user_id,
+            page = query.page,
+            jwt = token_handle.get_auth(header);
+
+        //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
+
+        let res0 = await product.view_products(page);
+
+        return { status: true, data: res0 };
 
     } catch (error) {
         console.error(error);

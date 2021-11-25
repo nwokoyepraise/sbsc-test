@@ -36,3 +36,13 @@ module.exports.delete = router.delete('', async (req, res) => {
         console.error(error);
     }
 });
+
+module.exports.view = router.get('', async (req, res) => {
+    try {
+        let data = await product_controller.view_products(req.query, req.header('Authorization'));
+        base_response.send_response(res, data);
+
+    } catch (error) {
+        console.error(error);
+    }
+});
