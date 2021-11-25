@@ -4,6 +4,7 @@ const fs = require('fs/promises');
 const product = require('../models/product');
 const crypt_gen = require('../utils/crypt_gen');
 const { AsyncParser } = require('json2csv');
+let path = require('path');
 
 function delete_files(files) {
     files.forEach(async (element) => {
@@ -225,7 +226,7 @@ module.exports.export_csv = async function (query, header) {
             asyncParser.processor
                 .on('data', chunk => (csv += chunk.toString()))
                 .on('end', async function () {
-                    await fs.writeFile('output/all_product.csv', csv);
+                    await fs.writeFile(path.join(__dirname, '../output/all_product.csv'), csv);
                     resolve(true);
                 })
                 .on('error', function (err) {
