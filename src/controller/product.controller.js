@@ -3,7 +3,6 @@ const check_for_null = require('../utils/null_undefined_checker');
 const fs = require('fs/promises');
 const product = require('../models/product');
 const crypt_gen = require('../utils/crypt_gen');
-const user = require('../models/user');
 
 function delete_files(files) {
     files.forEach(async (element) => {

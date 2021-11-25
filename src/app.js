@@ -8,10 +8,11 @@ const home = require('./routes/home');
 const user_reg = require('./routes/user_reg');
 const user_auth = require('./routes/user_auth');
 const product = require('./routes/product');
+const category = require('./routes/category');
 
 //use and set express middleware
 app.use(express.json({ limit: '20kb' }));
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 
@@ -23,8 +24,9 @@ app.use('/product/create', product.create);
 app.use('/product/update', product.update);
 app.use('/product/delete', product.delete);
 app.use('/products/view', product.view);
+app.use('/category/create', category.create);
 
 
-server.listen(port_number, ()=>{
+server.listen(port_number, () => {
     console.log(`server listening on port ${port_number}`)
 })
