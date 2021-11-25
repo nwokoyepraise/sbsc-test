@@ -4,7 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run build && node src/app.js",
+    "start:dev": "nodemon --exec babel-node src/app.js",
+    "clean": "rm -rf build && mkdir build",
+    "build-babel": "babel -d ./build src/app.js -s",
+    "build": "npm run clean && npm run build-babel"
   },
   "repository": {
     "type": "git",
@@ -20,6 +25,7 @@
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",
     "argon2": "^0.28.2",
+    "babel-plugin-inline-dotenv": "^1.6.0",
     "cors": "^2.8.5",
     "crypto-random-string": "^3.2.0",
     "dotenv": "^10.0.0",
