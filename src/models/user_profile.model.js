@@ -1,4 +1,4 @@
-const user_model = require('./user_model');
+const user_model = require('./user.model');
 
 module.exports.create_user = async function (user_id, email, password, rjwt_hash) {
     try {

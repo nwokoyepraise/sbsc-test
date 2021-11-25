@@ -1,4 +1,4 @@
-const user_profile_model = require('../models/user_profile_model');
+const user_profile_model = require('../models/user_profile.model');
 const token_handle = require('../utils/token_handle');
 const crypt_gen = require('../utils/crypt_gen');
 const user = require('../models/user');
