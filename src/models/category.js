@@ -38,3 +38,12 @@ module.exports.delete_category = async function (field, value) {
         console.error(error);
     }
 }
+
+module.exports.view_categories = async function (page) {
+    try {
+        return await category_model.find({}, {}, { skip: 10 * page, limit: 10 })
+            .lean();
+    } catch (error) {
+        console.error(error);
+    }
+}

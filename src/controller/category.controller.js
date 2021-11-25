@@ -121,3 +121,23 @@ module.exports.delete_category = async function (body) {
         return { status: false, status_code: 400, message: "Bad Request" }
     }
 }
+
+module.exports.view_categories = async function (query, header) {
+    try {
+        let user_id = query.user_id,
+            page = query.page,
+            jwt = token_handle.get_auth(header);
+
+        //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
+
+        let res0 = await category.view_categories(page);
+
+        return { status: true, data: res0 };
+
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}

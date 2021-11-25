@@ -43,7 +43,7 @@ module.exports.chk_jwt = async function (user_id, jwt) {
         if (error.name == 'TokenExpiredError') {
             return { status: false, status_code: 406, message: 'TokenExpiredError' }
         }
-        return { status: false, message: 'Not Allowed' }
+        return { status: false, status_code: 406, message: 'Not Allowed' }
     }
 }
 

@@ -34,3 +34,13 @@ module.exports.delete = router.delete('', async (req, res) => {
     }
 });
 
+module.exports.view = router.get('', async (req, res) => {
+    try {
+        let data = await category_controller.view_categories(req.query, req.header('Authorization'));
+        base_response.send_response(res, data);
+
+    } catch (error) {
+        console.error(error);
+    }
+});
+
