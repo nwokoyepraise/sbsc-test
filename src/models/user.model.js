@@ -8,10 +8,6 @@ const user = new schema({
         unique: true,
         required: [true, 'user_id required']
     },
-    username: {
-        type: String,
-        unique: true
-    },
     email: {
         type: String,
         unique: true,
