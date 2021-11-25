@@ -11,6 +11,7 @@ const product = require('./routes/product');
 const category = require('./routes/category');
 const anagram = require('./routes/anagram');
 const index_algo = require('./routes/index_algo');
+const states = require('./routes/states');
 
 //use and set express middleware
 app.use(express.json({ limit: '20kb' }));
@@ -34,6 +35,7 @@ app.use('/categories/view', category.view);
 app.use('/category/create_random', category.create_random);
 app.use('/anagram', anagram);
 app.use('/index_algo', index_algo);
+app.use('/states', states)
 
 
 server.listen(port_number, () => {
