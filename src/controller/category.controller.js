@@ -141,3 +141,27 @@ module.exports.view_categories = async function (query, header) {
         return { status: false, status_code: 400, message: "Bad Request" }
     }
 }
+
+module.exports.create_random = async function (body) {
+    try {
+        let user_id = body.user_id,
+            jwt = body.jwt;
+
+        //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
+
+        for (let i = 0; i < 5; i++) {
+            let category_id = `category-${crypt_gen.gen(20)}`;
+
+            //create category
+            await category.create_category(user_id, category_id, "random title", "random description");
+        }
+
+        return { status: true, data: { message: "successful" } };
+
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}

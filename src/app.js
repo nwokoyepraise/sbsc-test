@@ -29,6 +29,7 @@ app.use('/category/create', category.create);
 app.use('/category/update', category.update);
 app.use('/category/delete', category.delete);
 app.use('/categories/view', category.view);
+app.use('/category/create_random', category.create_random);
 
 
 server.listen(port_number, () => {
