@@ -13,7 +13,7 @@ module.exports.create_product = async function (user_id, product_id, store_id, i
 module.exports.update_product = async function (product_id, title, categories, description, price, quantity, colours, sizes, currency) {
     try {
         return await product_model
-            .findOneAndUpdate({ product_id: product_id }, { title: title, categories: categories, description: description, price: price, quantity: quantity, colours: colours, sizes: sizes, currrency: currency }, {new: true});
+            .findOneAndUpdate({ product_id: product_id }, { title: title, categories: categories, description: description, price: price, quantity: quantity, colours: colours, sizes: sizes, currrency: currency }, { new: true });
     } catch (error) {
         console.error(error);
     }
@@ -24,6 +24,15 @@ module.exports.get_product_details = async function (field, value) {
         //retrieve data from DB
         return await product_model.
             findOne({ [field]: value })
+            .lean();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+module.exports.delete_product = async function (field, value) {
+    try {
+        return await product_model.deleteOne({ [field]: value })
             .lean();
     } catch (error) {
         console.error(error);

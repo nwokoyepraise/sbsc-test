@@ -105,7 +105,7 @@ module.exports.update_product = async function (body) {
         }
 
         if (res0?.user_id !== user_id) {
-            return { status: false, status_code: 406, message: "User not owner of product" }
+            return { status: false, status_code: 406, message: "User is not owner of product" }
         }
 
         //update product
@@ -114,6 +114,42 @@ module.exports.update_product = async function (body) {
         if (res1 && res1._id) {
             return { status: true, data: res1 };
         } else { return { status: false, status_code: 500, message: "Unable to update product, please try again later!" } }
+
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}
+
+module.exports.delete_product = async function (body) {
+    try {
+        let user_id = body.user_id,
+            product_id = body.product_id,
+            jwt = body.jwt;
+
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+
+        //check jwt
+        if (!auth.status) { return auth }
+
+        if (!product_id) { return { status: false, status_code: 400, message: "product_id cannot be null" } }
+
+        let res0 = await product.get_product_details('product_id', product_id);
+
+        if (!res0) {
+            return { status: false, status_code: 404, message: "Product not found" }
+        }
+
+        if (res0?.user_id !== user_id) {
+            return { status: false, status_code: 406, message: "User  is not owner of product" }
+        }
+
+        //delete product
+        let res1 = await product.delete_product('product_id', product_id);
+
+        if (res1 && res1.deletedCount == 1) {
+            return { status: true, data: "Product deleted successfully" };
+        } else { return { status: false, status_code: 500, message: "Unable to delete product, please try again later!" } }
 
     } catch (error) {
         console.error(error);

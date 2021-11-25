@@ -21,6 +21,7 @@ app.use('/user_reg', user_reg);
 app.use('/user_auth/login', user_auth.user_login);
 app.use('/product/create', product.create);
 app.use('/product/update', product.update);
+app.use('/product/delete', product.delete);
 
 
 server.listen(port_number, ()=>{
