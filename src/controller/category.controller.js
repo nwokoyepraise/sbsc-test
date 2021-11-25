@@ -86,3 +86,38 @@ module.exports.update_category = async function (body) {
         return { status: false, status_code: 400, message: "Bad Request" }
     }
 }
+
+module.exports.delete_category = async function (body) {
+    try {
+        let user_id = body.user_id,
+            category_id = body.category_id,
+            jwt = body.jwt;
+
+        //check jwt
+        let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
+
+        if (!category_id) { return { status: false, status_code: 400, message: "category_id cannot be null" } }
+
+        let res0 = await category.get_category_details('category_id', category_id);
+
+        if (!res0) {
+            return { status: false, status_code: 404, message: "Category not found" }
+        }
+
+        if (res0?.user_id !== user_id) {
+            return { status: false, status_code: 406, message: "User  is not creator of category" }
+        }
+
+        //delete product
+        let res1 = await category.delete_category('category_id', category_id);
+
+        if (res1 && res1.deletedCount == 1) {
+            return { status: true, data: "Category deleted successfully" };
+        } else { return { status: false, status_code: 500, message: "Unable to delete category, please try again later!" } }
+
+    } catch (error) {
+        console.error(error);
+        return { status: false, status_code: 400, message: "Bad Request" }
+    }
+}

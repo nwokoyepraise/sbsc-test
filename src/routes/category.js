@@ -24,3 +24,13 @@ module.exports.update = router.put('', async (req, res) => {
     }
 });
 
+module.exports.delete = router.delete('', async (req, res) => {
+    try {
+        let data = await category_controller.delete_category(req.body);
+        base_response.send_response(res, data);
+
+    } catch (error) {
+        console.error(error);
+    }
+});
+

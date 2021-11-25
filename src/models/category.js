@@ -29,3 +29,12 @@ module.exports.update_category = async function (category_id, title, description
         console.error(error);
     }
 }
+
+module.exports.delete_category = async function (field, value) {
+    try {
+        return await category_model.deleteOne({ [field]: value })
+            .lean();
+    } catch (error) {
+        console.error(error);
+    }
+}
