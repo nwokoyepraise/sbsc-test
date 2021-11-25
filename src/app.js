@@ -9,6 +9,7 @@ const user_reg = require('./routes/user_reg');
 const user_auth = require('./routes/user_auth');
 const product = require('./routes/product');
 const category = require('./routes/category');
+const anagram = require('./routes/anagram');
 
 //use and set express middleware
 app.use(express.json({ limit: '20kb' }));
@@ -30,6 +31,7 @@ app.use('/category/update', category.update);
 app.use('/category/delete', category.delete);
 app.use('/categories/view', category.view);
 app.use('/category/create_random', category.create_random);
+app.use('/anagram', anagram);
 
 
 server.listen(port_number, () => {
