@@ -11,6 +11,7 @@ const product = new schema({
     product_id: {
         type: String,
         required: true,
+        unique: true,
         ref: "Product",
     },
     store_id: {

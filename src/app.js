@@ -19,7 +19,9 @@ app.use(cors());
 app.use('/', home);
 app.use('/user_reg', user_reg);
 app.use('/user_auth/login', user_auth.user_login);
-app.use('/product', product.create);
+app.use('/product/create', product.create);
+app.use('/product/update', product.update);
+
 
 server.listen(port_number, ()=>{
     console.log(`server listening on port ${port_number}`)
