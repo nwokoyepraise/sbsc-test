@@ -93,8 +93,8 @@ module.exports.update_product = async function (body) {
         }
 
         //check jwt
-        if (!auth.status) { return auth }
         let auth = await token_handle.chk_jwt(user_id, jwt);
+        if (!auth.status) { return auth }
 
         let res0 = await product.get_product_details('product_id', product_id);
 

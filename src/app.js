@@ -25,6 +25,7 @@ app.use('/product/update', product.update);
 app.use('/product/delete', product.delete);
 app.use('/products/view', product.view);
 app.use('/category/create', category.create);
+app.use('/category/update', category.update)
 
 
 server.listen(port_number, () => {
