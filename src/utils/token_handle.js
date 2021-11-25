@@ -1,8 +1,9 @@
-require('dotenv').config();
+require('dotenv').config({path: 'src/.env'});
 const argon2 = require('argon2');
 const mjwt = require('jsonwebtoken');
 const crypt_gen = require('../utils/crypt_gen');
 const key = process.env.JWTKEY;
+
 
 
 module.exports.gen_rjwt = async function () {
